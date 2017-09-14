@@ -2,7 +2,7 @@ library("quantmod")
 source("GetFinancialInfo.netease.R")
 
 type.list <- c("zycwzb", "cznl", "ylnl")
-stocksA<-read.table("A3b.txt",header=T)
+stocksA<-read.table("A3a.txt",header=T)
 for (i in stocksA[,"Codes"]) {
 	ID=substr(i,1,6)
 #	STOCKNAME=toString(stocksA[rownames(subset(stocksA,Codes==i)),2])
@@ -356,12 +356,11 @@ for (i in stocksA[,"Codes"]) {
   
 	
 }
-stocksA<-read.table("A3.txt",header=T)
-
+stocksA1<-read.table("A3.txt",header=T,encoding="UTF-8")
 filelist <- list.files(pattern=".*.csv")
 datalist <- lapply(filelist, function(x) read.csv(x, header=T,sep=",")) 
 datafr <- do.call("rbind", datalist)
-AplusName<- merge(stocksA,datafr,by="Codes",all=T)
+AplusName<- merge(stocksA1,datafr,by="Codes",all=T)
 AplusName1<-AplusName[rowSums(is.na(AplusName[,3:52]))!=50,]
 AplusName1a<-AplusName1[complete.cases(AplusName1[1:2]),]
 write.csv(AplusName1a,"A_stocks_assessment.csv",row.names=F,col.names=T)
